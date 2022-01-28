@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   <ThirdwebWeb3Provider supportedChainIds={supportedChainIds}
   connectors={connectors}
   >
-  return <Component {...pageProps} />
+  <Component {...pageProps} />
   </ThirdwebWeb3Provider>
   )
 }

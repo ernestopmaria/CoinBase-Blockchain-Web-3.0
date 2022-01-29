@@ -7,6 +7,9 @@ import Coin from './Coin';
 function Portfolio() {
   return (
       <Wrapper>
+        <Content>
+
+       
         <PortfolioTable>
           <TableItem>
             <Title>Your Assets</Title>
@@ -26,7 +29,6 @@ function Portfolio() {
             <div>{coins.map(coin =>(
               <div>
                 <Coin coin={coin}/>
-                <h2>{coin.name}</h2>
                 <Divider/>
               </div>
             )
@@ -34,6 +36,7 @@ function Portfolio() {
             )}</div>
           </Table>
         </PortfolioTable>
+        </Content>
       </Wrapper>
   );
 }

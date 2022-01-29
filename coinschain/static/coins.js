@@ -66,4 +66,14 @@ export const coins = [
     change: 200.24,
     allocation: 17.89,
   },
+  {
+    name: 'Zimbo',
+    sign: 'ZB',
+    logo: btcLogo,
+    balanceUsd: 400,
+    balanceCoin: 6.35667736,
+    priceUsd: 28.32,
+    change: 45.74,
+    allocation: 41.89,
+  },
 ]

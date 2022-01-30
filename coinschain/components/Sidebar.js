@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CoinbaseLogo from '../assets/cb-logo.png'
 import {navItems} from '../static/navItems'
 
 function Sidebar() {
+    const [activeIcon , setActiveIcon] = useState(navItems[0].title)
   return(
        <Wrapper>
            <LogoContainer>
@@ -14,8 +15,8 @@ function Sidebar() {
            </LogoContainer>
            <NavItemsContainer>
                {navItems.map((navItem , index)=>(
-                   <NavItem key={index}>
-                       <NavIcon>
+                   <NavItem key={index} onClick={()=>setActiveIcon(navItem.title)}>
+                       <NavIcon style={{color:navItem.title===activeIcon && "#3773f5"}}>
                            {navItem.icon}
                        </NavIcon>
                        <NavTitle>
@@ -60,7 +61,7 @@ display: flex;
 align-items: center;
 font-size:1.3rem;
 font-weight: 500;
-border-radius: 0%.5rem;
+border-radius: 0.5rem;
 margin-bottom: 1.5rem;
 height: 4rem;
 &:hover{

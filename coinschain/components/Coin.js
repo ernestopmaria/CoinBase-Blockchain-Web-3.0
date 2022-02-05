@@ -48,7 +48,7 @@ export default Coin;
 
 const Wrapper = styled.div`
 display: flex;
-width:100%auto;
+width:100% auto;
 justify-content: space-between;
 align-items: center;
 

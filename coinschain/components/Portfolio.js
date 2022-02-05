@@ -24,18 +24,21 @@ for(const token of sanityTokens){
 
 useEffect( async () =>  {
   const calculateTotalBalance = async()=>{
-    let total = 0
-    for(const token of thirdWebTokens) {
+  const totalBalance = await Promise.all(
+    thirdWebTokens.map(async token => {
       const balance = await token.balanceOf(walletAddress)
-      total += Number(balance.displayValue) * tokenToUSD[token.address]
-    }
+      return Number(balance.displayValue) * tokenToUSD[token.address]
+    })
   
-  setWalletBalance(total)
-  
-  }
-  calculateTotalBalance()
+  )
+  const total = await totalBalance.reduce((acc, curr)=> acc + curr, 0)
+ setWalletBalance(total)
  
-}, []);
+
+  }
+  return calculateTotalBalance()
+
+}, [thirdWebTokens, setWalletBalance]);
 
 
 
@@ -55,7 +58,7 @@ useEffect( async () =>  {
             </BalanceTitle>
             <BalanceValue>
               {"$"}
-              {walletBalance}
+              {walletBalance.toLocaleString()}
             </BalanceValue>
           </Balance>
         </div>

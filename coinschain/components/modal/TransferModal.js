@@ -1,14 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Transfer from './Transfer';
 
-function TransferModal() {
+function TransferModal({sanityTokens, thirdWebToken, walletAddress}) {
+
+    const [action , setAction] = useState('send')
+    const [selectedToken, setselectedToken] = useState(sanityTokens[0]);
+
+    const selectedStyle ={
+        color:'#3773f5',
+    }
+
+    const unselectedStyle ={
+        border:'1px solid #282b2f'
+    }
+
+    const selectModal = option =>{
+        switch(option){
+            case "send":
+                return<Transfer selectedToken={selectedToken}
+                setAction={setAction}
+                 thirdWebToken={thirdWebToken}
+                  walletAddress ={walletAddress}
+                />
+                
+            case "receive":
+                return <h2>Receive</h2>
+            default:
+                return(
+                    <h2>Send</h2>
+                    
+                    )
+        }
+    }
+ 
   return(
-       <Wrapper>
-      
+       <Wrapper>      
         <Selector>
-           <Options><p> Send</p></Options>
-           <Options><p> Receive</p></Options>
+           <Options style={ action==="send" ? selectedStyle : unselectedStyle} 
+           onClick={()=>setAction('send')}>
+               <p> Send</p></Options>
+             
+               
+           <Options style={action==="receive" ? selectedStyle : unselectedStyle} 
+           onClick={()=>setAction('receive')} >
+               <p> Receive</p></Options>
+             
            </Selector>
+           <ModalMain>       
+              {selectModal(action)        
+                            }
+             
+
+           </ModalMain>
+         
      
        </Wrapper>
        
@@ -28,7 +73,7 @@ flex-direction: column;
 
 const Selector = styled.div`
 display: flex;
-border: 1px solid #282b2f;
+
 justify-content: space-evenly;
 align-items: center;
 height: 5rem;
@@ -45,4 +90,8 @@ font-weight: 600;
     background-color: #111214;
 }
 
+`
+const ModalMain = styled.div`
+flex:1;
+padding: 1rem;
 `

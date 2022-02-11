@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Transfer from './Transfer';
 
-function TransferModal({sanityTokens, thirdWebToken, walletAddress}) {
+function TransferModal({sanityTokens, thirdWebTokens, walletAddress}) {
 
     const [action , setAction] = useState('send')
     const [selectedToken, setselectedToken] = useState(sanityTokens[0]);
@@ -20,7 +20,7 @@ function TransferModal({sanityTokens, thirdWebToken, walletAddress}) {
             case "send":
                 return<Transfer selectedToken={selectedToken}
                 setAction={setAction}
-                 thirdWebToken={thirdWebToken}
+                 thirdWebTokens={thirdWebTokens}
                   walletAddress ={walletAddress}
                 />
                 

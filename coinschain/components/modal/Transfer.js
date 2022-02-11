@@ -1,15 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {FaWallet} from 'react-icons/fa'
+import {FaWallet} from 'react-icons/fa';
+import imageUrlBuilder from '@sanity/image-url';
+import {client} from '../../lib/sanity'
 
 function Transfer({
-    selectedToken, setAction, thirdWebToken, walletAddress}) {
+    selectedToken, setAction, thirdWebTokens, walletAddress}) {
     const [amount, setAmount] = useState();
     const [recipient, setRecipient] = useState("");
+    const [imageUrl, setImageUrl] = useState(null)
+    const [activeThirdWebToken, setActiveThirdWebToken] =useState()
+    const [balance, setBalance] = useState("fetching...")
+
+
+    useEffect(async() => {
+      const activeToken = thirdWebTokens.find(
+          token=> token.address === selectedToken.contractAddress
+      )
+
+      setActiveThirdWebToken(activeToken)
+    }, [thirdWebTokens, selectedToken])
+    
+
+    useEffect(async () => {
+        const url =  imageUrlBuilder(client).image(selectedToken.logo).url()
+        setImageUrl(url)
+    }, [selectedToken]);
 
     useEffect(() => {
-        console.log("Wollo:",selectedToken)
-    }, []);
+        const getBalance = async()=>{
+            const balance = await activeThirdWebToken.balanceOf(walletAddress)
+            setBalance(balance.displayValue)
+        }
+        if(activeThirdWebToken){
+            getBalance()
+        }
+    
+    }, [activeThirdWebToken])
+    
     
    
   return ( 
@@ -41,9 +69,9 @@ function Transfer({
          <FieldName>Pay with</FieldName>
          <CoinSelectList>
              <Icon>
-                 <img src="https://cdn.shoplightspeed.com/shops/616834/files/9676476/drapeau-import-flag-canadian.jpg" alt="" />
+                 <img src={imageUrl} alt="" />
              </Icon>
-             <CoinName>Ethereum</CoinName>
+             <CoinName>{selectedToken.name}</CoinName>
          </CoinSelectList>
      </Row>     
  </TranferForm>
@@ -52,9 +80,9 @@ function Transfer({
  </Row>
  <Row>
      <BalanceTitle>
-         ETH Balance
+         {selectedToken.symbol} Balance
      </BalanceTitle>
-     <Balance>1.2 ETH</Balance>
+     <Balance>{balance} {selectedToken.symbol}</Balance>
  </Row>
  </Wrapper>
  )
@@ -146,8 +174,8 @@ display: grid;
 place-items: center;
 
 & > img{
-    height: 120%;
-    width: 120%;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
 }
 `
